@@ -1,3 +1,4 @@
+let modalQt = 1;
 const querySelector = elemento => document.querySelector(elemento);
 const querySelectorAll = elemento => document.querySelectorAll(elemento);
 
@@ -14,10 +15,22 @@ pizzaJson.map( (item, index) => {
     event.preventDefault();
 
     let key = event.target.closest('.pizza-item').getAttribute('data-key');
+    modalQt = 1;
 
     querySelector('.pizzaBig img').src = pizzaJson[key].img;
     querySelector('.pizzaInfo h1').innerHTML = pizzaJson[key].name;
     querySelector('.pizzaInfo--desc').innerHTML = pizzaJson[key].description;
+    querySelector('.pizzaInfo--actualPrice').innerHTML = `R$ ${pizzaJson[key].price.toFixed(2)}`;;
+    
+    querySelector('.pizzaInfo--size.selected').classList.remove('selected');
+    querySelectorAll('.pizzaInfo--size').forEach( (size, sizeIndex) => {
+      if(sizeIndex == 2) {
+        size.classList.add('selected');
+      }
+      size.querySelector('span').innerHTML = pizzaJson[key].sizes[sizeIndex];
+    });
+
+    querySelector('.pizzaInfo--qt').innerHTML = modalQt;
 
     querySelector('.pizzaWindowArea').style.opacity = 0;
 
