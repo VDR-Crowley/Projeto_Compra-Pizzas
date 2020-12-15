@@ -1,4 +1,7 @@
 let modalQt = 1;
+let cart = [];
+let modalKey = 0;
+
 const selectorElement = elemento => document.querySelector(elemento);
 const selectorElementAll = elemento => document.querySelectorAll(elemento);
 
@@ -18,6 +21,7 @@ pizzaJson.map( (item, index) => {
 
     let key = event.target.closest('.pizza-item').getAttribute('data-key');
     modalQt = 1;
+    modalKey = key;
 
     selectorElement('.pizzaBig img').src = pizzaJson[key].img;
     selectorElement('.pizzaInfo h1').innerHTML = pizzaJson[key].name;
@@ -67,7 +71,7 @@ function Effect(time) {
   }, time);
 }
 
-
+// button mais and menos
 const buttonMenos = selectorElement('.pizzaInfo--qtmenos');
 const buttonMais = selectorElement('.pizzaInfo--qtmais');
 
@@ -83,7 +87,7 @@ buttonMais.addEventListener('click', () => {
   selectorElement('.pizzaInfo--qt').innerHTML = modalQt;
 });
 
-
+// button de tamanho das pizzas
 selectorElementAll('.pizzaInfo--size').forEach( (size, sizeIndex) => {
   
   size.addEventListener('click', (event) => {
@@ -91,4 +95,18 @@ selectorElementAll('.pizzaInfo--size').forEach( (size, sizeIndex) => {
     size.classList.add('selected');
   });
 
+});
+
+// button add carrinho
+selectorElement('.pizzaInfo--addButton').addEventListener('click', () => {
+  // qual tamanho
+  let size = parseInt(selectorElement('.pizzaInfo--size.selected').getAttribute('data-key'));
+  
+  cart.push( {
+    id:pizzaJson[modalKey].id,
+    size,
+    qt:modalQt
+  } );
+
+  closeModal();
 });
