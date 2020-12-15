@@ -60,8 +60,35 @@ buttonsFechaModal.forEach((item) => {
   item.addEventListener('click', closeModal);
 });
 
+// animation time
 function Effect(time) {
   setTimeout( () => {
     selectorElement('.pizzaWindowArea').style.opacity = 1;
   }, time);
 }
+
+
+const buttonMenos = selectorElement('.pizzaInfo--qtmenos');
+const buttonMais = selectorElement('.pizzaInfo--qtmais');
+
+buttonMenos.addEventListener('click', () => {
+  if(modalQt > 1) {
+    modalQt--;
+    selectorElement('.pizzaInfo--qt').innerHTML = modalQt;
+  }
+});
+
+buttonMais.addEventListener('click', () => {
+  modalQt++;
+  selectorElement('.pizzaInfo--qt').innerHTML = modalQt;
+});
+
+
+selectorElementAll('.pizzaInfo--size').forEach( (size, sizeIndex) => {
+  
+  size.addEventListener('click', (event) => {
+    selectorElement('.pizzaInfo--size.selected').classList.remove('selected');
+    size.classList.add('selected');
+  });
+
+});
