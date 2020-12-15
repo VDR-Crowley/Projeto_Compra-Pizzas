@@ -1,9 +1,10 @@
 let modalQt = 1;
-const querySelector = elemento => document.querySelector(elemento);
-const querySelectorAll = elemento => document.querySelectorAll(elemento);
+const selectorElement = elemento => document.querySelector(elemento);
+const selectorElementAll = elemento => document.querySelectorAll(elemento);
 
+// Listagens das pizzas
 pizzaJson.map( (item, index) => {
-  let pizzaItem = querySelector('.models .pizza-item').cloneNode(true);
+  let pizzaItem = selectorElement('.models .pizza-item').cloneNode(true);
 
   pizzaItem.setAttribute('data-key', index);
   pizzaItem.querySelector('.pizza-item--img img').src = item.img;
@@ -11,35 +12,56 @@ pizzaJson.map( (item, index) => {
   pizzaItem.querySelector('.pizza-item--name').innerHTML = item.name;
   pizzaItem.querySelector('.pizza-item--desc').innerHTML = item.description;
 
+  // Evento de click que abre o MODAl
   pizzaItem.querySelector('a').addEventListener('click', event => {
     event.preventDefault();
 
     let key = event.target.closest('.pizza-item').getAttribute('data-key');
     modalQt = 1;
 
-    querySelector('.pizzaBig img').src = pizzaJson[key].img;
-    querySelector('.pizzaInfo h1').innerHTML = pizzaJson[key].name;
-    querySelector('.pizzaInfo--desc').innerHTML = pizzaJson[key].description;
-    querySelector('.pizzaInfo--actualPrice').innerHTML = `R$ ${pizzaJson[key].price.toFixed(2)}`;;
+    selectorElement('.pizzaBig img').src = pizzaJson[key].img;
+    selectorElement('.pizzaInfo h1').innerHTML = pizzaJson[key].name;
+    selectorElement('.pizzaInfo--desc').innerHTML = pizzaJson[key].description;
+    selectorElement('.pizzaInfo--actualPrice').innerHTML = `R$ ${pizzaJson[key].price.toFixed(2)}`;;
     
-    querySelector('.pizzaInfo--size.selected').classList.remove('selected');
-    querySelectorAll('.pizzaInfo--size').forEach( (size, sizeIndex) => {
+    selectorElement('.pizzaInfo--size.selected').classList.remove('selected');
+    selectorElementAll('.pizzaInfo--size').forEach( (size, sizeIndex) => {
       if(sizeIndex == 2) {
         size.classList.add('selected');
       }
       size.querySelector('span').innerHTML = pizzaJson[key].sizes[sizeIndex];
     });
 
-    querySelector('.pizzaInfo--qt').innerHTML = modalQt;
+    selectorElement('.pizzaInfo--qt').innerHTML = modalQt;
 
-    querySelector('.pizzaWindowArea').style.opacity = 0;
+    selectorElement('.pizzaWindowArea').style.opacity = 0;
 
-    querySelector('.pizzaWindowArea').style.display = 'flex';
+    selectorElement('.pizzaWindowArea').style.display = 'flex';
 
-    setTimeout( () => {
-      querySelector('.pizzaWindowArea').style.opacity = 1;
-    }, 300);
+    Effect(300);
   });
   
-  querySelector('.pizza-area').append( pizzaItem );
+  selectorElement('.pizza-area').append( pizzaItem );
 });
+
+
+// Eventos do MODAL
+
+function closeModal() {
+  selectorElement('.pizzaWindowArea').style.opacity = 0;
+  setTimeout( () => {
+    selectorElement('.pizzaWindowArea').style.display = 'none';
+  }, 600);
+}
+
+const buttonsFechaModal = selectorElementAll('.pizzaInfo--cancelButton, .pizzaInfo--cancelMobileButton');
+
+buttonsFechaModal.forEach((item) => {
+  item.addEventListener('click', closeModal);
+});
+
+function Effect(time) {
+  setTimeout( () => {
+    selectorElement('.pizzaWindowArea').style.opacity = 1;
+  }, time);
+}
