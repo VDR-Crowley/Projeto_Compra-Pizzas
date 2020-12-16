@@ -102,11 +102,23 @@ selectorElement('.pizzaInfo--addButton').addEventListener('click', () => {
   // qual tamanho
   let size = parseInt(selectorElement('.pizzaInfo--size.selected').getAttribute('data-key'));
   
-  cart.push( {
-    id:pizzaJson[modalKey].id,
-    size,
-    qt:modalQt
-  } );
+
+  let identifier = pizzaJson[modalKey].id+'@'+size;
+
+  let key = cart.findIndex( (item) => {
+    return item.identifier == identifier;
+  });
+
+  if(key > -1) {
+    cart[key].qt += modalQt;
+  } else {
+    cart.push( {
+      identifier,
+      id:pizzaJson[modalKey].id,
+      size,
+      qt:modalQt
+    } );
+  }
 
   closeModal();
 });
