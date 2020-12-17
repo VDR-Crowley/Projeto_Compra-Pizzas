@@ -124,8 +124,22 @@ selectorElement('.pizzaInfo--addButton').addEventListener('click', () => {
   closeModal();
 });
 
+
+selectorElement('.menu-openner').addEventListener('click', () => {
+  if(cart.length > 0) {
+    selectorElement('aside').style.left = '0';
+  }
+});
+
+selectorElement('.menu-closer').addEventListener('click', () => {
+  selectorElement('aside').style.left = '100vw';
+});
+
 // Atualizar o carrinho
 function updateCart() {
+
+  selectorElement('.menu-openner span').innerHTML = cart.length;
+
   if(cart.length > 0) {
     selectorElement('aside').classList.add('show');
 
@@ -191,5 +205,6 @@ function updateCart() {
 
   } else {
     selectorElement('aside').classList.remove('show');
+    selectorElement('aside').style.left = '100vw';
   }
 }
